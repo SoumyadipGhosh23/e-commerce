@@ -1,0 +1,4 @@
+the localhost server is used in google authentication
+we need to change in the appwrite section means the platform integration section
+google's console api section
+and in my auth.js file

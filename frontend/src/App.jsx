@@ -2,6 +2,7 @@ import {
   createBrowserRouter,
   RouterProvider,
   Outlet,
+  ScrollRestoration
 } from "react-router-dom";
 import { useEffect } from "react";
 import authService from "./appwrite/auth";
@@ -20,6 +21,9 @@ import Wishlist from "./pages/WishList/Wishlist";
 import Payment from "./pages/Payment/Payment";
 import PaymentSuccess from "./pages/Payment/PaymentSuccess";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
+import Offer from "./pages/Offer/Offer";
+import Footer from "./components/Home/Footer/Footer";
+import FooterBottom from "./components/Home/Footer/FooterBottom";
 
 const Layout = () => {
   return (
@@ -27,7 +31,11 @@ const Layout = () => {
       <Header />
       <HeaderBottom />
       <SpecialCase />
+      <ScrollRestoration/>
       <Outlet />
+      <Footer/>
+      <FooterBottom/>
+      
     </div>
   );
 };
@@ -61,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "/product/:_id",
         element : <ProductDetails/>
+      },
+      {
+        path: "/offer",
+        element : <Offer/>
       }
     ]
   },

@@ -1,0 +1,176 @@
+.nav-link.active {
+  background-color: #8C8C8C;
+  color: white;
+}
+.photo-input {
+  display: none;
+}
+
+  /* Additional print styles or adjustments can be added here */
+  @page {
+    size: auto;
+    margin: 20mm;
+  }
+
+  .btn-cust3 {
+    background-color: #6fa561 !important;
+    border-radius: 6px !important;
+    border: 0 !important;
+    color: #fff !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    width: 130px;
+    height: 30px;
+  }
+
+  .form-control[readonly] {
+    background-color: #e9ecef !important;
+    pointer-events: none !important;
+    color: #212529 !important;
+  }
+
+  .pagination-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+
+  .file-upload {
+    height: 40px !important;
+    border: none;
+    box-shadow: none;
+  }
+
+
+
+  /* Tree View */
+  .storageHeading {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #EA5840;
+    text-transform: capitalize;
+  }
+
+  .directory {
+    user-select: none;
+    padding: 20px;
+    border-radius: 0.4em;
+  }
+
+  .directory .tree,
+  .directory .tree-node,
+  .directory .tree-node-group {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .directory .tree-branch-wrapper,
+  .directory .tree-node__leaf {
+    outline: none;
+    outline: none;
+  }
+
+  .directory .tree-node {
+    cursor: pointer;
+    margin: 1rem 0 !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .directory .tree-node:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .directory .tree .tree-node--focused {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .directory .tree .tree-node--selected {
+    background: rgb(234, 224, 202);
+
+  }
+
+  .directory .tree-node__branch {
+    display: block;
+  }
+
+  .directory .icon {
+    font-size: 1.7rem !important;
+    vertical-align: middle;
+    padding-right: 5px;
+  }
+
+  .tree-branch-wrapper {
+    height: auto !important;
+  }
+
+
+
+
+  /*photo css*/
+  .photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 6px 6px 0px 0px;
+    border: 1px solid #d0d0d0;
+    background: #fff;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+  }
+
+  .photo img {
+    width: 200px;
+    height: 198px;
+  }
+
+  .photo .photo-upload-userIcon img {
+    width: 180px;
+    height: 180px;
+  }
+
+  .upload-btn {
+    background-color: #d0d0d0;
+    width: 200px;
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    border-radius: 0px 0px 6px 6px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+
+  .photo-input {
+    display: none;
+  }
+
+  .upload-icon img {
+    margin-right: 18px;
+    width: 19px;
+    height: 18.414px;
+    margin-left: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  .photo-upload-crossIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .photo-upload-crossIcon img {
+    height: 25px;
+    width: 30px;
+    background-color: #ffffff;
+    cursor: pointer;
+    border-radius: 10%;
+  }
+
+  .txtArea1 {
+    height: 124px;
+  }
+  

@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.react-chatbot-kit-chat-container {
+  width: 400px !important
+}
+
+.react-chatbot-kit-chat-bot-message {
+  margin-left: 10px !important
+}
+
+.react-chatbot-kit-chat-bot-message {
+  background-color: #c77aca !important
+}
+
+.react-chatbot-kit-chat-bot-message-arrow {
+  border-right: 8px solid #c77aca !important
+}
+
+.react-chatbot-kit-chat-btn-send {
+  background-color: #43b9e8 !important
+}
+
+
+
+.start-btn {
+  background-color: #d711de !important;
+  color: white !important;
+  padding: .5rem 1rem !important;
+  border-radius: 999px !important;
+  border: none !important;
+  cursor: pointer !important;
+  margin-left: 3rem !important;
+}
+
+.slow-btn {
+  margin-left: 1rem !important;
+}
+
+.img-component {
+  margin-left: 3rem !important;
+  position: relative !important;
+}
+
+.img-container {
+  width: 185px !important;
+  height: 185px !important;
+  border: 2px solid #c77aca !important;
+  overflow: hidden !important;
+  border-radius: 5px !important;
+}
+
+.img-container img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.img-component a {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  border-radius: 5px !important;
+  background-color: #61045F !important;
+  color: white !important;
+  text-decoration: none !important;
+  padding: .5rem 1rem !important;
+}
+
+.img-component a:hover {
+  background-color: #61045f5e !important;
+}
+
+@layer components {
+  .hoverEffect {
+    @apply duration-300 cursor-pointer;
+  }
+  .headerSedenavLi {
+    @apply hover:underline underline-offset-2 cursor-pointer text-gray-300 hover:text-white;
+  }
+}
+
+/* ============= NavLink active Start here ============== */
+nav .active li {
+  color: black;
+  font-weight: 600;
+  text-decoration: 1px underline black;
+}
+
+@media screen and (max-width: 665px) {
+  nav .active li {
+    color: white;
+    font-weight: 600;
+    text-decoration: 1px underline white;
+  }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+/* ============= NavLink active End here ================ */

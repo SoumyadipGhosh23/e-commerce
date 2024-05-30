@@ -1,0 +1,47 @@
+.circle {
+    width: 9px; /* Set the width of the circle */
+    height: 9px; /* Set the height of the circle */
+    background-color: #3498db; /* Set the background color of the circle */
+    border-radius: 50%; /* Make the div a circle */
+    margin-left: auto;
+    margin-right: 2rem;
+  }
+  
+  .container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Set the gap between the title and the circle */
+  }
+
+  .green {
+    background-color: green;
+  }
+  
+  .red {
+    background-color: red;
+  }
+  
+  .blue {
+    background-color: blue;
+  }
+  
+  .yellow {
+    background-color: yellow;
+  }
+  
+  .white {
+    background-color: white;
+    border: 1px solid #ccc; /* Optional border for visibility */
+  }
+  
+  .black {
+    background-color: black;
+  }
+  
+  .others {
+    background-color: gray; /* Assign a color for 'Others' */
+  }
+  
+  .all {
+    background-color: lightgray; /* Assign a color for 'All' */
+  }

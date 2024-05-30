@@ -11,7 +11,7 @@ const port = process.env.PORT || 5000;
 
 app.use(cors(
     {
-        origin: ["http://localhost:5174"],
+        origin: ["https://e-commerce-qshop-delta.vercel.app"],
         methos: ["POST", "GET"],
         credentials: true,
     }

@@ -1,5 +1,4 @@
 import { app } from "./app.js";
-import Razorpay from "razorpay";
 import { connectDB } from "./config/database.js";
 import dotenv from "dotenv";
 

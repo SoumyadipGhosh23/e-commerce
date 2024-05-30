@@ -1,7 +1,7 @@
 import express from "express";
-import { config } from "dotenv";
 import paymentRoute from "./routes/paymentRoutes.js";
 import cors from "cors";
+import Razorpay from "razorpay";
 
 
 

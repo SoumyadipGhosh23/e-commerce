@@ -8,7 +8,7 @@ export const app = express();
 
 app.use(cors(
   {
-    origin: ["https://e-commerce-qshop-delta.vercel.app", "http://localhost:5713", "http://localhost:5174"],
+    origin: ["https://e-commerce-qshop-delta.vercel.app", "http://localhost:5173", "http://localhost:5174"],
     methods: ["POST", "GET"], // Corrected spelling of 'methods'
     credentials: true,
   }

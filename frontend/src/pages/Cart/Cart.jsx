@@ -66,7 +66,7 @@ const Cart = () => {
     if (userName !== "Unknown!") {
       try {
         setProgress(progress + 33)
-        await axios.post("http://localhost:4000/api/saveOrder", {
+        await axios.post("https://e-commerce-backend-hazel.vercel.app/api/saveOrder", {
           name: userName,
           price: totalAmt,
           shippingFee: shippingCharge

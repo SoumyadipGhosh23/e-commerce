@@ -35,7 +35,7 @@ const PaymentSuccess = () => {
   const getOrder = async () => {
     try {
       if (userName !== "Unknown!") {
-        const response = await axios.post("http://localhost:4000/api/getOrderDetails", {
+        const response = await axios.post("https://e-commerce-backend-hazel.vercel.app/api/getOrderDetails", {
           name: userName,
         });
         if (response) {
@@ -80,7 +80,7 @@ const PaymentSuccess = () => {
   const getPaymentDetails = async () => {
     try {
       setProgress(progress + 33);
-      const response = await axios.post("http://localhost:4000/api/getPaymentDetails", {
+      const response = await axios.post("https://e-commerce-backend-hazel.vercel.app/api/getPaymentDetails", {
         razorpay_payment_id: razorpay_payment_id,
       });
       setProgress(100);

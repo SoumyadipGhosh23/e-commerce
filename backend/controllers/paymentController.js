@@ -1,7 +1,13 @@
-import { instance } from "../app.js";
 import crypto from "crypto";
 import { Payment } from "../models/paymentModel.js";
 import { Receipt } from "../models/receiptDetailsModel.js";
+import Razorpay from "razorpay";
+
+
+const instance = new Razorpay({
+  key_id: process.env.RAZORPAY_API_KEY,
+  key_secret: process.env.RAZORPAY_APT_SECRET,
+});
 
 export const checkout = async (req, res) => {
   try {

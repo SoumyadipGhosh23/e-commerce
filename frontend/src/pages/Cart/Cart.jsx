@@ -11,12 +11,20 @@ import { useNavigate } from "react-router-dom";
 import authService from "../../appwrite/auth.js";
 import axios from "axios";
 import LoadingBar from "react-top-loading-bar";
+import toast, { Toaster } from "react-hot-toast"
+
 
 
 const Cart = () => {
 
   const [userName, setUserName] = useState("Unknown!");
   const [progress, setProgress] = useState(0)
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [city, setCity] = useState('');
+  const [zip, setZip] = useState('');
+
+  const [addressEntered, setAddressEntered] = useState(false)
 
   // get user name:
   const fetchData = async () => {
@@ -29,6 +37,19 @@ const Cart = () => {
     } catch (error) {
       console.error("Fetching data failed:", error);
     }
+  };
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (firstName && lastName && city && zip) {
+      toast.success("Address Submitted Successfully!")
+      setAddressEntered(true)
+      console.log("Addressed Entered successfully");
+    } else {
+      toast.error("Enter all the details")
+    }
+
+
   };
 
   useEffect(() => {
@@ -63,29 +84,35 @@ const Cart = () => {
   }, [totalAmt]);
 
   const paymentHandler = async () => {
-    if (userName !== "Unknown!") {
-      try {
-        setProgress(progress + 33)
-        await axios.post("https://e-commerce-backend-hazel.vercel.app/api/saveOrder", {
-          name: userName,
-          price: totalAmt,
-          shippingFee: shippingCharge
-        })
-        setProgress(progress + 33)
-      } catch (error) {
-        console.error("Error saving order details: ", error);
-        setProgress(100)
+    if (addressEntered) {
+      if (userName !== "Unknown!") {
+        try {
+          setProgress(progress + 33)
+          await axios.post("http://localhost:4000/api/saveOrder", {
+            name: userName,
+            price: totalAmt,
+            shippingFee: shippingCharge
+          })
+          setProgress(progress + 33)
+        } catch (error) {
+          console.error("Error saving order details: ", error);
+          setProgress(100)
+        }
       }
+      dispatch(setAmount(totalAmt + shippingCharge))
+      setProgress(100)
+      navigate("/paymentgateway")
+    }else{
+      toast.error("Enter shipping address first")
     }
-    dispatch(setAmount(totalAmt + shippingCharge))
-    setProgress(100)
-    navigate("/paymentgateway")
+
   }
 
 
   return (
 
     <>
+      <Toaster />
       <LoadingBar
         color='#f11946'
         progress={progress}
@@ -94,74 +121,167 @@ const Cart = () => {
       <div className="max-w-container mx-auto px-7">
         <Breadcrumbs title="Cart 🛒" />
         {(products.length > 0 && isAuthenticated) ? (
-          <div className="pb-20">
-            <div className=" hidden lg:grid grid-cols-5 w-full h-20 place-content-center px-6 text-lg font-titleFont font-bold" style={{ backgroundColor: "#F5F7F7", color: "#00000" }}>
-              <h2 className="col-span-2">Product</h2>
-              <h2>Price</h2>
-              <h2>Quantity</h2>
-              <h2>Sub Total</h2>
-            </div>
-            <div className="mt-5">
-              {products.map((item) => (
-                <div key={item._id}>
-                  <ItemCard item={item} />
-                </div>
-              ))}
-            </div>
-
-            <button
-              onClick={() => dispatch(resetCart())}
-              className="py-2 px-10 bg-red-500 text-white font-semibold uppercase mb-4 hover:bg-red-700 duration-300"
-            >
-              Reset cart
-            </button>
-
-            <div className="flex flex-col mdl:flex-row justify-between border py-4 px-4 items-center gap-2 mdl:gap-0">
-              <div className="flex items-center gap-4">
-                <input
-                  className="w-44 mdl:w-52 h-8 px-4 border text-primeColor text-sm outline-none border-gray-400"
-                  type="text"
-                  placeholder="Coupon Number"
-                />
-                <p className="text-sm mdl:text-base font-semibold">
-                  Apply Coupon
-                </p>
+          <>
+            <div className="pb-20">
+              <div className=" hidden lg:grid grid-cols-5 w-full h-20 place-content-center px-6 text-lg font-titleFont font-bold" style={{ backgroundColor: "#F5F7F7", color: "#00000" }}>
+                <h2 className="col-span-2">Product</h2>
+                <h2>Price</h2>
+                <h2>Quantity</h2>
+                <h2>Sub Total</h2>
               </div>
-              <p className="text-lg font-semibold">Update Cart</p>
-            </div>
-            <div className="max-w-7xl gap-4 flex justify-end mt-4">
-              <div className="w-96 flex flex-col gap-4">
-                <h1 className="text-2xl font-semibold text-right">Cart totals</h1>
+              <div className="mt-5">
+                {products.map((item) => (
+                  <div key={item._id}>
+                    <ItemCard item={item} />
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={() => dispatch(resetCart())}
+                className="py-2 px-10 bg-red-500 text-white font-semibold uppercase mb-4 hover:bg-red-700 duration-300"
+              >
+                Reset cart
+              </button>
+
+
+
+              <div className="flex flex-col mdl:flex-row justify-between border py-4 px-4 items-center gap-2 mdl:gap-0">
+                <div className="flex items-center gap-4">
+                  <input
+                    className="w-44 mdl:w-52 h-8 px-4 border text-primeColor text-sm outline-none border-gray-400"
+                    type="text"
+                    placeholder="Coupon Number"
+                  />
+                  <p className="text-sm mdl:text-base font-semibold">
+                    Apply Coupon
+                  </p>
+                </div>
+                <p className="text-lg font-semibold">Update Cart</p>
+              </div>
+              <div className="max-w-7xl gap-4 flex justify-between mt-4">
                 <div>
-                  <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
-                    Subtotal
-                    <span className="font-semibold tracking-wide font-titleFont">
-                    ₹{totalAmt}
-                    </span>
-                  </p>
-                  <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
-                    Shipping Charge
-                    <span className="font-semibold tracking-wide font-titleFont">
-                    ₹{shippingCharge}
-                    </span>
-                  </p>
-                  <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
-                    Total
-                    <span className="font-bold tracking-wide text-lg font-titleFont">
-                    ₹{totalAmt + shippingCharge}
-                    </span>
-                  </p>
+                  <h1 className="text-2xl font-semibold text-left mb-5">Add Address</h1>
+                  <form className="w-full max-w-lg" onSubmit={handleSubmit}>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="grid-first-name"
+                        >
+                          First Name
+                        </label>
+                        <input
+                          className="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                          id="grid-first-name"
+                          type="text"
+                          placeholder="Jane"
+                          value={firstName}
+                          onChange={(event) => setFirstName(event.target.value)}
+                        />
+                        {firstName === '' && (
+                          <p className="text-red-500 text-xs italic">
+                            Please fill out this field.
+                          </p>
+                        )}
+                      </div>
+                      <div className="w-full md:w-1/2 px-3">
+                        <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="grid-last-name"
+                        >
+                          Last Name
+                        </label>
+                        <input
+                          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="grid-last-name"
+                          type="text"
+                          placeholder="Doe"
+                          value={lastName}
+                          onChange={(event) => setLastName(event.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="grid-city"
+                        >
+                          Address
+                        </label>
+                        <input
+                          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="grid-city"
+                          type="text"
+                          placeholder="Albuquerque"
+                          value={city}
+                          onChange={(event) => setCity(event.target.value)}
+                        />
+                      </div>
+
+                      <div className="w-full md:w-1/2 px-3">
+                        <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="grid-zip"
+                        >
+                          Zip
+                        </label>
+                        <input
+                          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="grid-zip"
+                          type="text"
+                          placeholder="90210"
+                          value={zip}
+                          onChange={(event) => setZip(event.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <button
+                    style={{ display: addressEntered ? "none" : "" , marginLeft : "25rem"}}
+                      className="shadow bg-red-500 hover:bg-red-500 focus:shadow-outline-purple focus:outline-none text-white font-bold py-2 px-4 rounded"
+                      type="submit"
+                    >
+                      Submit
+                    </button>
+                  </form>
                 </div>
-                <div className="flex justify-end">
+                <div className="w-96 flex flex-col gap-4">
+                  <h1 className="text-2xl font-semibold text-right">Cart totals</h1>
+                  <div>
+                    <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
+                      Subtotal
+                      <span className="font-semibold tracking-wide font-titleFont">
+                        ₹{totalAmt}
+                      </span>
+                    </p>
+                    <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
+                      Shipping Charge
+                      <span className="font-semibold tracking-wide font-titleFont">
+                        ₹{shippingCharge}
+                      </span>
+                    </p>
+                    <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
+                      Total
+                      <span className="font-bold tracking-wide text-lg font-titleFont">
+                        ₹{totalAmt + shippingCharge}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="flex justify-end">
 
-                  <button onClick={paymentHandler} className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300">
-                    Proceed to Checkout
-                  </button>
+                    <button onClick={paymentHandler} className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300">
+                      Proceed to Checkout
+                    </button>
 
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+
+          </>
+
         ) : (
           <motion.div
             initial={{ y: 30, opacity: 0 }}

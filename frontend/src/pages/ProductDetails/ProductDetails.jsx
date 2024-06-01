@@ -3,16 +3,43 @@ import { useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
 import ProductInfo from "../../components/pageProps/productDetails/ProductInfo.jsx";
 import ProductsOnSale from "../../components/pageProps/productDetails/ProductsOnSale.jsx";
+import service from "../../appwrite/productListing.js";
 
 const ProductDetails = () => {
   const location = useLocation();
   const [prevLocation, setPrevLocation] = useState("");
   const [productInfo, setProductInfo] = useState([]);
+  const [imageURL, setImageURL] = useState("")
+
+  function getLastSegment(urlPath) {
+    // Split the URL path by slashes
+    const segments = urlPath.split('/');
+
+    // The last segment will be the last element in the array
+    return segments.pop();
+  }
 
   useEffect(() => {
-    setProductInfo(location.state.item);
     setPrevLocation(location.pathname);
   }, [location, productInfo]);
+
+  console.log(location.pathname);
+
+  useEffect(() => {
+    (async () => {
+      const slug = getLastSegment(location.pathname)
+      await service.getPost(slug).then(async (post) => {
+        if (post) {
+          console.log(post);
+          const imageURL = await service.getFilePreview(post.featuredImage).href;
+          console.log(imageURL);
+          setImageURL(imageURL)
+          setProductInfo(post)
+        }
+      })
+    })();
+
+  }, [location.pathname])
 
   return (
     <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
@@ -27,8 +54,8 @@ const ProductDetails = () => {
           <div className="h-full xl:col-span-2">
             <img
               className="w-full h-full object-cover"
-              src={productInfo.img}
-              alt={productInfo.img}
+              src={imageURL}
+              alt={"image"}
             />
           </div>
           <div className="h-full w-full md:col-span-2 xl:col-span-3 xl:p-14 flex flex-col gap-6 justify-center">

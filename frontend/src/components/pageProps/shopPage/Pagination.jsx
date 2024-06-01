@@ -8,6 +8,7 @@ import appwriteService from "../../../appwrite/productListing.js"
 import { useSelector } from "react-redux";
 
 
+
 function Items({ currentItems }) {
   return (
     <>
@@ -37,6 +38,7 @@ const Pagination = ({ itemsPerPage }) => {
   const [items, setItems] = useState([])
   let imageArray = [];
   const [godData, setGodData] = useState([])
+  
 
   const filteredCategory = useSelector(state => state.filteringSlice.category)
   const filteredColor = useSelector(state => state.filteringSlice.color)

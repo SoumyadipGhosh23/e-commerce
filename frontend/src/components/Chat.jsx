@@ -1,14 +1,18 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from 'react';
-import { pants, shirt, skirts } from '../util/imageURL';
 import ChatInput from './ChatInput';
 import Message from './Message';
+import { useSelector } from 'react-redux';
 
 
 
 const Chat = ({ messages, setMessages, isOpen, setIsOpne, handleChatbotClick }) => {
   const [isTyping, setIsTyping] = useState(false)
+  const allProducts = useSelector(state => state.allProducts.products)
+  const allProductImages = useSelector(state => state.allProducts.imageArray)
+  console.log(allProducts);
+  console.log(allProductImages);
 
   const handleSendMessage = (text, sender) => {
     const newMessage = { text, sender };
@@ -16,85 +20,58 @@ const Chat = ({ messages, setMessages, isOpen, setIsOpne, handleChatbotClick }) 
     handleResponse(newMessage);
   };
 
-  const handleResponse = (message) => {
-    setIsTyping(true);
+  function haveCommonWords(str1, str2) {
+    // Split the strings into words
+    const words1 = str1.toLowerCase().split(/\s+/);
+    const words2 = str2.toLowerCase().split(/\s+/);
 
+    // Create a set for words in the first string
+
+    console.log(words2);
+   
+
+    // Check if any word from the second string exists in the set
+    for (const word2 of words2) {
+      for (const word1 of words1) {
+        if (word1.includes(word2)) {
+          return true
+        }
+      }
+    }
+
+    // No common words found
+    return false;
+  }
+
+  const handleResponse = (message) => {
+    let productDetails = {};
+    setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
 
       if (message.sender === 'user1') {
         const textLower = message.text.toLowerCase();
+        console.log(textLower);
 
-        if (textLower.includes('shirt')) {
+        for (let [index, ele] of allProducts.entries()) {
+          console.log(index);
+          if (haveCommonWords(textLower, ele.productName)) {
+            console.log(ele);
+            productDetails = ele;
+            break;
+          }
+        }
+        if (productDetails._id) {
           setMessages(prevMessages => [
             ...prevMessages,
             {
-              text: 'Check out this shirt!',
-              image: shirt, // replace with actual URL
-              link: {
-                _id: 'shirt',
-                img:
-                  'https://cloud.appwrite.io/v1/storage/buckets/65d3672d7f1a65bb7265/files/6655a080be883d8ba608/preview?project=65804aa9a44bb3ce522f',
-                productName: 'Shirt',
-                price: '399',
-                color: 'Black',
-                badge: true,
-                des: 'Men Regular Fit Checkered Spread Collar Casual Shirt'
-
-              }, // replace with actual link
+              text: `Checkout this ${productDetails.productName}, There may be some mismatch between what you want to see and what you are seeing, so please consider this.`,
+              img: productDetails.img,
               sender: 'user2',
-              rootId: 'shirt'
-            }
-          ]);
-        } else if (textLower.includes('jeans') || textLower.includes('pant')) {
-          setMessages(prevMessages => [
-            ...prevMessages,
-            {
-              text: 'Check out these pants!',
-              image: pants, // replace with actual URL
-              link: {
-                _id: 'dark-blue-high-rise-skinny-jeans',
-                img: 
-                  'https://cloud.appwrite.io/v1/storage/buckets/65d3672d7f1a65bb7265/files/665622fc2d5da61dd90c/preview?project=65804aa9a44bb3ce522f',
-                productName: 'DARK BLUE HIGH RISE SKINNY JEANS',
-                price: '900',
-                color: 'Blue',
-                badge: true,
-                des: 'MATERIALS, FABRIC & ORIGIN'
-              }, // replace with actual link
-              sender: 'user2',
-              rootId: 'darkbluehighriseskinnyjeans'
-            }
-          ]);
-        } else if (textLower.includes('skirt')) {
-          setMessages(prevMessages => [
-            ...prevMessages,
-            {
-              text: 'Check out these skirts!',
-              image: skirts, // replace with actual URL
-              link: {
+              rootId: productDetails._id
+            },
+          ])
 
-                _id: 'skirt',
-                img:
-                  'https://cloud.appwrite.io/v1/storage/buckets/65d3672d7f1a65bb7265/files/6655a3c551037d28c6b2/preview?project=65804aa9a44bb3ce522f',
-                productName: 'Skirt',
-                price: '700',
-                color: 'Black',
-                badge: true,
-                des:
-                  'KLART Checkered Skirt | Skirt for Women | Pleated Skirt | Tennis Skirt | Mini Skirt | Girls Skirts | Midi Skirt | Short Skirt \n' +
-                  ''
-
-              }, // replace with actual link
-              sender: 'user2',
-              rootId: 'skirt'
-            }
-          ]);
-        } else if (textLower.includes('hi') || textLower.includes('hello')) {
-          setMessages(prevMessages => [
-            ...prevMessages,
-            { text: 'Hello!', sender: 'user2' }
-          ]);
         } else {
           setMessages(prevMessages => [
             ...prevMessages,
@@ -115,7 +92,7 @@ const Chat = ({ messages, setMessages, isOpen, setIsOpne, handleChatbotClick }) 
     <div className="chat-container">
       <div className="chat-window">
         {messages.map((msg, index) => (
-          <Message isOpen={isOpen} setIsOpne={setIsOpne} handleChatbotClick={handleChatbotClick} key={index} text={msg.text} sender={msg.sender} image={msg.image} link={msg.link} rootId={msg.rootId} />
+          <Message isOpen={isOpen} setIsOpne={setIsOpne} handleChatbotClick={handleChatbotClick} key={index} text={msg.text} sender={msg.sender} image={msg.img} rootId={msg.rootId} />
         ))}
         {isTyping && (
           <div className="typing-indicator">

@@ -3,14 +3,11 @@
 import { useNavigate } from "react-router-dom";
 
 
-const Message = ({handleChatbotClick,text, sender, image, link, rootId }) => {
+const Message = ({handleChatbotClick,text, sender, image, rootId }) => {
+  console.log(image);
   const navigate = useNavigate();
   const redirectToProduct = () => {
-    navigate(`/product/${rootId}`, {
-      state: {
-        item: link,
-      },
-    });
+    navigate(`/product/${rootId}`);
     handleChatbotClick()
   }
   return (

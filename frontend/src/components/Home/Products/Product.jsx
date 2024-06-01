@@ -17,23 +17,16 @@ import { useSelector } from "react-redux";
 const Product = (props) => {
 
   const dispatch = useDispatch();
-  const _id = props.productName;
-  const idString = (_id) => {
-    return String(_id).toLowerCase().split(" ").join("");
-  };
-  const rootId = idString(_id);
+
+ 
   
 
   const navigate = useNavigate();
   const productItem = props;
   const handleProductDetails = () => {
     console.log(productItem);
-    console.log(rootId);
-    navigate(`/product/${rootId}`, {
-      state: {
-        item: productItem,
-      },
-    });
+    console.log(productItem._id);
+    navigate(`/product/${productItem._id}`);
   };
   const isAuthenticated = useSelector((state) => state.auth.status);
 

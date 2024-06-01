@@ -16,6 +16,7 @@ import wishList from "./wishList";
 import amountSlice from "./amountSlice";
 import chatbotslice from "./chatbotslice";
 import filteringSlice from "./filteringSlice";
+import allProducts from "./allProducts";
 
 const persistConfig = {
   key: "root",
@@ -25,6 +26,7 @@ const persistConfig = {
 
 const orebiPersistedReducer = persistReducer(persistConfig, orebiReducer);
 
+
 // Combine reducers
 const rootReducer = combineReducers({
   orebiReducer: orebiPersistedReducer,
@@ -32,7 +34,8 @@ const rootReducer = combineReducers({
   wishlist : wishList,
   amountpay : amountSlice,
   chatbotslice : chatbotslice,
-  filteringSlice : filteringSlice
+  filteringSlice : filteringSlice,
+  allProducts : allProducts
 });
 
 export const store = configureStore({

@@ -9,7 +9,7 @@ import authService from "../../../appwrite/auth";
 import toast, { Toaster } from "react-hot-toast";
 import LoadingBar from 'react-top-loading-bar';
 import { useDispatch } from "react-redux";
-import { logout } from "../../../redux/authSlice";
+import { logout, setStaus } from "../../../redux/authSlice";
 import { BsSuitHeartFill } from "react-icons/bs";
 import appwriteService from "../../../appwrite/productListing.js"
 
@@ -17,24 +17,10 @@ const HeaderBottom = () => {
   //User Logged In or Not
   const [data, setData] = useState("Log In!");
   const [loggedIn, setloggedIn] = useState(false)
+  const alreadyLoggedIn = useSelector(state => state.auth.status)
+  const userData = useSelector(state => state.auth.userData)
   let imageArray = [];
-  const fetchData = async () => {
-    try {
-      const userData = await authService.getCurrentUser();
-
-      if (userData) {
-        const firstName = getFirstName(userData.name);
-        const userName = "Hello ! " + firstName
-        setData(userName);
-        setloggedIn(true)
-        toast.success("Logged In Successful!!!")
-      } else {
-        setData("Log In!");
-      }
-    } catch (error) {
-      console.error("Fetching data failed:", error);
-    }
-  };
+  console.log(userData);
 
   // Function to extract the first name
   const getFirstName = (fullName) => {
@@ -47,8 +33,19 @@ const HeaderBottom = () => {
     return firstName;
   };
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (userData) {
+      if (!alreadyLoggedIn) {
+        const firstName = getFirstName(userData.name);
+        const userName = "Hello ! " + firstName
+        setData(userName);
+        setloggedIn(true)
+        toast.success("Logged In Successful!!!")
+        dispatch(setStaus())
+      }
+    } else {
+      setData("Log In")
+    }
+  }, [userData]);
 
   //End
 
@@ -229,19 +226,13 @@ const HeaderBottom = () => {
                       Sign Up
                     </li>
                   </Link>
-
                   <div onClick={logoutHandler} className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer mb-2" style={loggedIn ? { display: `block` } : { display: `none` }}>
                     <li className="text-gray-400  hover:text-white duration-300 cursor-pointer" >
                       Log Out
                     </li>
 
                   </div>
-                  <Link to="https://e-commerce-admin-sigma-gilt.vercel.app">
-                    <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer mb-2">
-                      Access to admin panel
-                    </li>
-                  </Link>
-                 
+                  {/* <hr  style={loggedIn?{display:`block`}:{display:`none`}}/> */}
 
 
                 </motion.ul>

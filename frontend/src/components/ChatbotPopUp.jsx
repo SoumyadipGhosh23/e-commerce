@@ -59,7 +59,6 @@ const ChatbotPopUp = ({handleChatbotClick}) => {
 
 
     return (
-        userName &&
         <div className={`chatbot-popup ${visible ? "chatbot-popup-show" : ""}`}>
             <div className="chatbot-popup-inner" >
                <Chat messages={messages} setMessages={setMessages} handleChatbotClick={handleChatbotClick}/>

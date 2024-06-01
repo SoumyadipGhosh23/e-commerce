@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import authService from "./appwrite/auth";
 import { login, logout } from "./redux/authSlice";
 import { useDispatch } from "react-redux";
+import appwriteService from "./appwrite/productListing.js"
 
 import Header from './components/Home/Header/Header'
 import HeaderBottom from "./components/Home/Header/HeaderBottom";
@@ -25,6 +26,7 @@ import Offer from "./pages/Offer/Offer";
 import Footer from "./components/Home/Footer/Footer";
 import FooterBottom from "./components/Home/Footer/FooterBottom";
 import Chatbot from "./components/Chatbot";
+import { setImageArray, setProducts } from "./redux/allProducts.js";
 
 const Layout = () => {
   return (
@@ -32,12 +34,12 @@ const Layout = () => {
       <Header />
       <HeaderBottom />
       <SpecialCase />
-      <ScrollRestoration/>
+      <ScrollRestoration />
       <Outlet />
-      <Chatbot/>
-      <Footer/>
-      <FooterBottom/>
-      
+      <Chatbot />
+      <Footer />
+      <FooterBottom />
+
     </div>
   );
 };
@@ -62,19 +64,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/wishlist",
-        element: <Wishlist/>
+        element: <Wishlist />
       },
       {
         path: "/paymentgateway",
-        element: <Payment/>
+        element: <Payment />
       },
       {
         path: "/product/:_id",
-        element : <ProductDetails/>
+        element: <ProductDetails />
       },
       {
         path: "/offer",
-        element : <Offer/>
+        element: <Offer />
       }
     ]
   },
@@ -85,14 +87,15 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp />
-  },{
-    path : "/paymentsuccess",
-    element : <PaymentSuccess/>
+  }, {
+    path: "/paymentsuccess",
+    element: <PaymentSuccess />
   }
 ])
 
 
 function App() {
+  let imageArray = [];
   const dispatch = useDispatch()
   //Name of the web page
   useEffect(() => {
@@ -116,6 +119,44 @@ function App() {
       }
     )
   }, [])
+
+  useEffect(() => {
+    (async () => {
+      await appwriteService.getPosts([]).then((posts) => {
+
+        posts.documents.map((ele) => {
+          imageArray.push(appwriteService.getFilePreview(ele.featuredImage).href)
+        })
+       
+        return posts;
+      }).then((posts) => {
+        if (posts) {
+          const temp = [];
+          posts.documents.map((ele, index) => {
+            temp.push(
+              {
+                _id: ele.$id,
+                img: imageArray[index],
+                productName: ele.productName,
+                price: ele.price,
+                color: ele.color,
+                badge: ele.badge,
+                des: ele.des,
+                category: ele.category
+              }
+            )
+          })
+          dispatch(setProducts(temp))
+          dispatch(setImageArray(imageArray));
+        }
+      })
+        .catch((error) => {
+          console.log(error, "Can't fetch products from appwrite server");
+        })
+    })();
+  }, [])
+
+
   return (
     <div className="font-bodyFont">
       <RouterProvider router={router} />

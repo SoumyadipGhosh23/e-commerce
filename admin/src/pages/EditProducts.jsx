@@ -30,6 +30,7 @@ function EditProducts() {
                         size: post.size,
                         badge: post.badge,
                         featuredImage: post.featuredImage,
+                        noOfItems : post.noOfItems
                     })
                 }
             })

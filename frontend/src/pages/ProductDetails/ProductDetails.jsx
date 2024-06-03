@@ -59,7 +59,7 @@ const ProductDetails = () => {
             />
           </div>
           <div className="h-full w-full md:col-span-2 xl:col-span-3 xl:p-14 flex flex-col gap-6 justify-center">
-            <ProductInfo productInfo={productInfo} />
+            <ProductInfo productInfo={productInfo} imageURL = {imageURL}/>
           </div>
         </div>
       </div>

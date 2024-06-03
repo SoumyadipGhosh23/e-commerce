@@ -16,11 +16,11 @@ const Payment = () => {
   const paymentHandler = async () => {
 
     setProgress(progress+33)
-    const { data: { key } } = await axios.get("https://e-commerce-backend-hazel.vercel.app/api/getkey")
+    const { data: { key } } = await axios.get("http://localhost:4000/api/getkey")
     setProgress(progress+33)
     console.log(key);
     setProgress(progress+22)
-    const { data: { order } } = await axios.post("https://e-commerce-backend-hazel.vercel.app/api/checkout", {
+    const { data: { order } } = await axios.post("http://localhost:4000/api/checkout", {
       amount
     })
 
@@ -32,7 +32,7 @@ const Payment = () => {
       description: "You're Completely Secured while Paying",
       image: logo,
       order_id: order.id,
-      callback_url: "https://e-commerce-backend-hazel.vercel.app/api/paymentverification",
+      callback_url: "http://localhost:4000/api/paymentverification",
       notes: {
         "address": "Razorpay Corporate Office"
       },

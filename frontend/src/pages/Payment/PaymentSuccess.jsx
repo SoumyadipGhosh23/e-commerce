@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { Link,  useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { saveAs } from 'file-saver';
@@ -11,9 +11,11 @@ const PaymentSuccess = () => {
   const [userName, setUserName] = useState("Unknown!");
   const [orderDetails, setOrderDetails] = useState(null);
   const [paymentDetails, setPaymentDetails] = useState(null);
+  const [pdfDownload, setPdfDownload] = useState(false)
 
   const searchQuery = useSearchParams()[0];
   const referenceNum = searchQuery.get("reference");
+
 
   // Fetch user name
   const fetchData = async () => {
@@ -35,7 +37,7 @@ const PaymentSuccess = () => {
   const getOrder = async () => {
     try {
       if (userName !== "Unknown!") {
-        const response = await axios.post("https://e-commerce-backend-hazel.vercel.app/api/getOrderDetails", {
+        const response = await axios.post("http://localhost:4000/api/getOrderDetails", {
           name: userName,
         });
         if (response) {
@@ -80,7 +82,7 @@ const PaymentSuccess = () => {
   const getPaymentDetails = async () => {
     try {
       setProgress(progress + 33);
-      const response = await axios.post("https://e-commerce-backend-hazel.vercel.app/api/getPaymentDetails", {
+      const response = await axios.post("http://localhost:4000/api/getPaymentDetails", {
         razorpay_payment_id: razorpay_payment_id,
       });
       setProgress(100);
@@ -92,6 +94,7 @@ const PaymentSuccess = () => {
 
   // Master function to get all the details
   const getAllDetails = async () => {
+    setPdfDownload(true)
     getPaymentDetails();
     getOrder();
   };
@@ -104,7 +107,7 @@ const PaymentSuccess = () => {
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
-      <div className="max-w-md mx-auto bg-white p-8 rounded-md shadow-md">
+      <div className="max-w-md mx-auto bg-white p-8 rounded-md shadow-md" style={{overflowX: "scroll"}}>
         <h1 className="text-3xl font-bold mb-4">Order Successful</h1>
         <p className="text-gray-500 mb-4">{referenceNum}</p>
         <div className="mb-4">
@@ -127,12 +130,23 @@ const PaymentSuccess = () => {
             <p className="text-sm">Shipping Charge: {orderDetails.shippingFee}</p>
           </div>
         )}
-        <button
-          className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
-          onClick={createAndDownloadPdf}
-        >
-          Download PDF
-        </button>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+  <button
+    style={{ display: !pdfDownload ? "none" : "", marginRight: "auto" }}
+    className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+    onClick={createAndDownloadPdf}
+  >
+    Download PDF
+  </button>
+  <Link
+ 
+  className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+  to={"/"} // Replace this with the appropriate route for your home page
+> 
+  Back to home
+</Link>
+</div>
+       
       </div>
     </div>
   );

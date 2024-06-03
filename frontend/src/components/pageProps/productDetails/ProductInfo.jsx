@@ -5,7 +5,7 @@ import { addToWishlist } from "../../../redux/wishList"
 import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 
-const ProductInfo = ({ productInfo }) => {
+const ProductInfo = ({ productInfo, imageURL }) => {
   const isAuthenticated = useSelector((state) => state.auth.status);
   const dispatch = useDispatch();
 
@@ -16,7 +16,7 @@ const ProductInfo = ({ productInfo }) => {
           _id: productInfo._id,
           name: productInfo.productName,
           quantity: 1,
-          image: productInfo.img,
+          image:imageURL,
           badge: productInfo.badge,
           price: productInfo.price,
           colors: productInfo.color,
@@ -35,7 +35,7 @@ const ProductInfo = ({ productInfo }) => {
         addToWishlist({
           _id: productInfo._id,
           name: productInfo.productName,
-          image: productInfo.img,
+          image: imageURL,
           badge: productInfo.badge,
           price: productInfo.price,
           colors: productInfo.color,

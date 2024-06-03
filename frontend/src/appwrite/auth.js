@@ -29,7 +29,7 @@ export class AuthService {
 
     async loginWithGoogle() {
         // Redirect the user to the Google OAuth2 login page
-        this.account.createOAuth2Session('google', "https://e-commerce-qshop-delta.vercel.app", "https://e-commerce-qshop-delta.vercel.app/signin");
+        this.account.createOAuth2Session('google', "http://localhost:5174", "http://localhost:5174/signin");
     }
 
     async getCurrentUser() {

@@ -1,5 +1,6 @@
 import conf from '../conf/conf';
 import { Client, ID, Databases, Storage } from "appwrite";
+import { Query } from 'appwrite';
 
 export class Service{
     client = new Client();
@@ -14,7 +15,7 @@ export class Service{
         this.bucket = new Storage(this.client);
     }
 
-    async createPost({slug, productName, category, des, price, color, size, badge, featuredImage}){
+    async createPost({slug, productName, category, des, price, color, size, badge, featuredImage, noOfItems}){
         try {
             const response =  await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -29,7 +30,8 @@ export class Service{
                     color,
                     size, 
                     badge,
-                    featuredImage,   
+                    featuredImage,
+                    noOfItems   
                 },
             )
             return response
@@ -38,7 +40,7 @@ export class Service{
         }
     }
 
-    async updatePost(slug, {productName, category, des, price, color, size, badge, featuredImage}){
+    async updatePost(slug, {productName, category, des, price, color, size, badge, featuredImage, noOfItems}){
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -53,6 +55,7 @@ export class Service{
                     size, 
                     badge,
                     featuredImage,
+                    noOfItems
 
                 }
             )
@@ -95,6 +98,7 @@ export class Service{
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
+                [ Query.limit(100) ]
             )
         } catch (error) {
             console.log("Appwrite serive :: getPosts :: error", error);

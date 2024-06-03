@@ -42,7 +42,7 @@ const Product = (props) => {
           badge: props.badge,
           price: props.price,
           colors: props.color,
-          maxQunatity : 5,
+          maxQunatity : props.noOfItems,
         })
       )
       toast.success("Added to cart!")

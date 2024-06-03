@@ -23,6 +23,7 @@ function Items({ currentItems }) {
               color={item.color}
               badge={item.badge}
               des={item.des}
+              noOfItems={item.noOfItems}
             />
           </div>
         )) : <h2>Sorry! No Item Found</h2>}
@@ -84,7 +85,8 @@ const Pagination = ({ itemsPerPage }) => {
                 color: ele.color,
                 badge: ele.badge,
                 des: ele.des,
-                category: ele.category
+                category: ele.category,
+                noOfItems : ele.noOfItems
               }
             )
           })

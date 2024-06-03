@@ -239,8 +239,8 @@ const Cart = () => {
                       </div>
                     </div>
                     <button
-                    style={{ display: addressEntered ? "none" : "" , marginLeft : "25rem"}}
-                      className="shadow bg-red-500 hover:bg-red-500 focus:shadow-outline-purple focus:outline-none text-white font-bold py-2 px-4 rounded"
+                    style={{ display: addressEntered ? "none" : "" }}
+                      className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline-purple focus:outline-none text-white font-bold py-2 px-4 rounded"
                       type="submit"
                     >
                       Submit

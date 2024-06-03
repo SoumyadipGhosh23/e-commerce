@@ -29,6 +29,7 @@ const AddLocationSchema = yup.object().shape({
   size: yup.string().required("size is required field"),
   badge: yup.boolean().required(),
   image: yup.string(),
+  noOfItems : yup.string().required("No Of Items is a required field")
 
 });
 
@@ -47,7 +48,8 @@ const Product = ({ title = "Add Product", post }) => {
     badge: false,
     image: "",
     size: "",
-    category: ""
+    category: "",
+    noOfItems : ""
 
   };
 
@@ -161,13 +163,13 @@ const Product = ({ title = "Add Product", post }) => {
                         isInvalid={touched.category && !!errors.category}
                         defaultValue=""
                       >
-                      <option disabled value="">Select</option>
-                      <option value="Grocery">Grocery</option>
-                      <option value="Electronics">Electronics</option>
-                      <option value="Garments">Garments</option>
-                      <option value="Others">Others</option>
+                        <option disabled value="">Select</option>
+                        <option value="Grocery">Grocery</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Garments">Garments</option>
+                        <option value="Others">Others</option>
                       </Form.Select>
-                      
+
                       <Form.Control.Feedback type="invalid">
                         {errors.category}
                       </Form.Control.Feedback>
@@ -202,14 +204,14 @@ const Product = ({ title = "Add Product", post }) => {
                         isInvalid={touched.color && !!errors.color}
                         defaultValue=""
                       >
-                      <option disabled value="">Select</option>
-                      <option value="Grocery">Green</option>
-                      <option value="Red">Red</option>
-                      <option value="Blue">Blue</option>
-                      <option value="Yellow">Yellow</option>
-                      <option value="White">White</option>
-                      <option value="Black">Black</option>
-                      <option value="Others">Others</option>
+                        <option disabled value="">Select</option>
+                        <option value="Grocery">Green</option>
+                        <option value="Red">Red</option>
+                        <option value="Blue">Blue</option>
+                        <option value="Yellow">Yellow</option>
+                        <option value="White">White</option>
+                        <option value="Black">Black</option>
+                        <option value="Others">Others</option>
                       </Form.Select>
                       <Form.Control.Feedback type="invalid">
                         {errors.color}
@@ -313,45 +315,63 @@ const Product = ({ title = "Add Product", post }) => {
                       </Form.Control.Feedback>
                     </Form.Group>
                   </Col>
-                  <Row style={{marginTop: "1.7rem"}}>
-                  <Col md={6}>
+                  <Row style={{ marginTop: "1.7rem" }}>
+                    <Col md={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Size</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder=""
+
+                          name="size"
+                          onChange={handleChange}
+                          value={values.size}
+                          isValid={touched.size && !errors.size}
+                          isInvalid={touched.size && !!errors.size}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.size}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Label></Form.Label>
+                        <Form.Check
+                          type="checkbox"
+                          label="Badge"
+                          name="badge"
+                          value={values.badge}
+                          onChange={handleChange}
+                          checked={values.badge}
+                          className="badge-checkbox"
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Col md={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Size</Form.Label>
+                      <Form.Label>No Of Items</Form.Label>
                       <Form.Control
-                        type="text"
+                        type="number"
                         placeholder=""
 
-                        name="size"
+                        name="noOfItems"
                         onChange={handleChange}
-                        value={values.size}
-                        isValid={touched.size && !errors.size}
-                        isInvalid={touched.size && !!errors.size}
+                        value={values.noOfItems}
+                        isValid={touched.noOfItems && !errors.noOfItems}
+                        isInvalid={touched.noOfItems && !!errors.noOfItems}
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.size}
+                        {errors.noOfItems}
                       </Form.Control.Feedback>
                     </Form.Group>
                   </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label></Form.Label>
-                      <Form.Check
-                        type="checkbox"
-                        label="Badge"
-                        name="badge"
-                        value={values.badge}
-                        onChange={handleChange}
-                        checked={values.badge}
-                        className="badge-checkbox"
-                      />
-                    </Form.Group>
-                  </Col>
-                  </Row>
-                  
 
 
 
-                  
+
+
                 </Col>
               </Row>
             </div>
